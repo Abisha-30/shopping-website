@@ -1,44 +1,59 @@
 body {
-    font-family: Arial;
-    background: #f4f4f4;
-    margin: 0;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f9f9f9;
 }
-
 header {
-    background: #2c3e50;
-    color: white;
     text-align: center;
-    padding: 15px;
+    margin-bottom: 20px;
 }
-
 .products {
     display: flex;
-    justify-content: space-around;
-    margin: 20px;
+    gap: 20px;
+    margin-bottom: 30px;
 }
-
 .product {
-    background: white;
+    border: 1px solid #ccc;
     padding: 15px;
-    border-radius: 8px;
-    text-align: center;
     width: 150px;
+    text-align: center;
+    background: #fff;
 }
-
-button {
-    margin: 5px;
-    padding: 6px 10px;
-    border: none;
+.product button {
+    margin-top: 10px;
+    padding: 5px 10px;
     cursor: pointer;
 }
-
-button:hover {
-    opacity: 0.8;
-}
-
 .cart {
-    background: white;
-    margin: 20px;
-    padding: 15px;
-    border-radius: 8px;
+    border-top: 2px solid #333;
+    padding-top: 20px;
+}
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+.cart li {
+    margin: 5px 0;
+}
+.cart button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    text-align: center;
+}
+.login-container input {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 8px;
+}
+.login-container button {
+    padding: 8px 15px;
+    cursor: pointer;
 }
