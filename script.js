@@ -1,56 +1,137 @@
-let cart = [];
+// --- LOGIN FUNCTION ---
+function loginUser() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
 
-function addToCart(name, price) {
-    let item = cart.find(p => p.name === name);
-
-    if (item) {
-        item.qty++;
+    if (user === "admin" && pass === "1234") {
+        window.location.href = "shop.html";
     } else {
-        cart.push({ name, price, qty: 1 });
+        document.getElementById("login-msg").textContent = "Invalid login!";
     }
-
-    updateCart();
+    return false;
 }
 
-function removeItem(name) {
-    cart = cart.filter(p => p.name !== name);
-    updateCart();
+// --- PRODUCT LIST ---
+const products = [
+    { name: "Shirt", price: 500 },
+    { name: "Shoes", price: 1200 },
+    { name: "Watch", price: 800 },
+    { name: "Laptop", price: 45000 },
+    { name: "Phone", price: 15000 },
+    { name: "Headphones", price: 2000 },
+    { name: "Bag", price: 600 },
+    { name: "Perfume", price: 1000 },
+    { name: "Camera", price: 25000 },
+    { name: "Tablet", price: 20000 },
+    { name: "Book", price: 300 },
+    { name: "Sunglasses", price: 700 },
+    { name: "Keyboard", price: 1500 },
+    { name: "Mouse", price: 800 },
+    { name: "Speaker", price: 3500 },
+    { name: "Smartwatch", price: 5000 },
+    { name: "Dress", price: 1200 },
+    { name: "Jeans", price: 1000 },
+    { name: "Jacket", price: 2500 },
+    { name: "TV", price: 40000 }
+    // Add more items here
+];
+
+// --- LOAD PRODUCTS ---
+function loadProducts() {
+    displayProducts(products);
 }
 
-function changeQty(name, change) {
-    let item = cart.find(p => p.name === name);
+function displayProducts(list) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
 
-    if (item) {
-        item.qty += change;
+    list.forEach(product => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <button onclick="addToCart('${product.name}', ${product.price})">Add</button>
+        `;
+        productList.appendChild(div);
+    });
+}
 
-        if (item.qty <= 0) {
-            removeItem(name);
-        }
-    }
+// --- SEARCH FUNCTION ---
+function searchItems() {
+    const query = document.getElementById("search-box").value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+    displayProducts(filtered);
+}
 
+// --- CART LOGIC ---
+let cart = [];
+let total = 0;
+
+function addToCart(item, price) {
+    cart.push({ item, price });
+    total += price;
     updateCart();
 }
 
 function updateCart() {
-    let cartItems = document.getElementById("cart-items");
+    const cartItems = document.getElementById("cart-items");
+    if (!cartItems) return;
     cartItems.innerHTML = "";
 
-    let total = 0;
+    cart.forEach((product, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${product.item} - ₹${product.price}`;
 
-    cart.forEach(item => {
-        let li = document.createElement("li");
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "❌";
+        removeBtn.onclick = () => removeFromCart(index);
 
-        li.innerHTML = `
-            ${item.name} - ₹${item.price} x ${item.qty}
-            <button onclick="changeQty('${item.name}', 1)">+</button>
-            <button onclick="changeQty('${item.name}', -1)">-</button>
-            <button onclick="removeItem('${item.name}')">Remove</button>
-        `;
-
+        li.appendChild(removeBtn);
         cartItems.appendChild(li);
-
-        total += item.price * item.qty;
     });
 
-    document.getElementById("total").textContent = total;
+    const totalElement = document.getElementById("total");
+    if (totalElement) totalElement.textContent = total;
+}
+
+function removeFromCart(index) {
+    total -= cart[index].price;
+    cart.splice(index, 1);
+    updateCart();
+}
+
+// --- CHECKOUT LOGIC ---
+function checkout() {
+    window.location.href = "checkout.html";
+}
+
+function showOrderSummary() {
+    const summary = document.getElementById("order-summary");
+    if (!summary) return;
+
+    summary.innerHTML = "<h2>Order Summary</h2>";
+    cart.forEach(product => {
+        const p = document.createElement("p");
+        p.textContent = `${product.item} - ₹${product.price}`;
+        summary.appendChild(p);
+    });
+
+    const totalP = document.createElement("p");
+    totalP.textContent = "Total: ₹" + total;
+    summary.appendChild(totalP);
+}
+
+function placeOrder() {
+    const address = document.getElementById("address").value;
+    const phone = document.getElementById("phone").value;
+
+    if (address && phone) {
+        document.getElementById("order-msg").textContent =
+            "✅ Order placed successfully! Items will be delivered to " + address;
+    } else {
+        document.getElementById("order-msg").textContent =
+            "Please fill in all details.";
+    }
+    return false;
 }
