@@ -13,14 +13,13 @@ function loginUser() {
 
 // --- PRODUCT LIST ---
 const products = [
-    { name: "Shirt", price: 500 },
-    { name: "Shoes", price: 1200 },
+    { name: "Selfie stick", price: 1200 },
     { name: "Watch", price: 800 },
     { name: "Laptop", price: 45000 },
     { name: "Phone", price: 15000 },
     { name: "Headphones", price: 2000 },
     { name: "Bag", price: 600 },
-    { name: "Perfume", price: 1000 },
+    { name: "Remote car", price: 1000 },
     { name: "Camera", price: 25000 },
     { name: "Tablet", price: 20000 },
     { name: "Book", price: 300 },
@@ -29,9 +28,9 @@ const products = [
     { name: "Mouse", price: 800 },
     { name: "Speaker", price: 3500 },
     { name: "Smartwatch", price: 5000 },
-    { name: "Dress", price: 1200 },
-    { name: "Jeans", price: 1000 },
-    { name: "Jacket", price: 2500 },
+    { name: "fan", price: 1200 },
+    { name: "Remote", price: 1000 },
+    { name: "refrigerator", price: 2500 },
     { name: "TV", price: 40000 }
     // Add more items here
 ];
