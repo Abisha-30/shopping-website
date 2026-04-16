@@ -128,6 +128,15 @@ function showOrderSummary() {
     totalP.textContent = "Total: ₹" + total;
     summary.appendChild(totalP);
 }
+function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({ name: name, price: price });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Added to cart");
+}
 
 function placeOrder() {
     const address = document.getElementById("address").value;
