@@ -32,6 +32,11 @@ const products = [
     { name: "TV", price: 40000 }
 ];
 
+function initShop() {
+    loadProducts();
+    displayCart();
+}
+
 // --- LOAD PRODUCTS ---
 function loadProducts() {
     displayProducts(products);
@@ -45,7 +50,6 @@ function displayProducts(list) {
 
     list.forEach(product => {
         const div = document.createElement("div");
-        div.className = "product";
 
         div.innerHTML = `
             <h3>${product.name}</h3>
@@ -66,21 +70,6 @@ function searchItems() {
     displayProducts(filtered);
 }
 
-// --- UPDATE TOTAL (SHOP PAGE) ---
-function updateTotal() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    let total = 0;
-    cart.forEach(item => {
-        total += item.price;
-    });
-
-    const totalElement = document.getElementById("total");
-    if (totalElement) {
-        totalElement.textContent = total;
-    }
-}
-
 // --- ADD TO CART ---
 function addToCart(name, price) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -89,9 +78,47 @@ function addToCart(name, price) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    updateTotal(); // update UI
+    displayCart();
 
     alert("Added to cart");
+}
+
+// --- DISPLAY CART ---
+function displayCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let cartDiv = document.getElementById("cart-items");
+    let total = 0;
+
+    if (!cartDiv) return;
+
+    cartDiv.innerHTML = "";
+
+    cart.forEach((item, index) => {
+        let div = document.createElement("div");
+
+        div.innerHTML = `
+            ${item.name} - ₹${item.price}
+            <button onclick="removeItem(${index})">❌</button>
+        `;
+
+        cartDiv.appendChild(div);
+
+        total += item.price;
+    });
+
+    document.getElementById("total").textContent = total;
+}
+
+// --- REMOVE ITEM ---
+function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    displayCart();
 }
 
 // --- GO TO CHECKOUT ---
@@ -99,19 +126,17 @@ function checkout() {
     window.location.href = "checkout.html";
 }
 
-// --- LOAD CHECKOUT PAGE ---
+// --- LOAD CHECKOUT ---
 function loadCheckout() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let total = 0;
-    const summary = document.getElementById("order-summary");
-
-    if (!summary) return;
+    let summary = document.getElementById("order-summary");
 
     summary.innerHTML = "";
 
     cart.forEach(item => {
-        const p = document.createElement("p");
+        let p = document.createElement("p");
         p.textContent = `${item.name} - ₹${item.price}`;
         summary.appendChild(p);
 
@@ -130,16 +155,10 @@ function placeOrder() {
         document.getElementById("order-msg").textContent =
             "✅ Order placed successfully!";
 
-        localStorage.removeItem("cart"); // clear cart
+        localStorage.removeItem("cart");
     } else {
         document.getElementById("order-msg").textContent =
             "Please fill all details.";
     }
     return false;
 }
-
-// --- PAGE LOAD ---
-window.onload = function () {
-    loadProducts();
-    updateTotal();
-};
