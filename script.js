@@ -1,4 +1,3 @@
-// --- LOGIN FUNCTION ---
 // --- LOGIN ---
 function loginUser() {
     const user = document.getElementById("username").value;
@@ -67,13 +66,30 @@ function searchItems() {
     displayProducts(filtered);
 }
 
-// --- ADD TO CART (ONLY ONE VERSION) ---
+// --- UPDATE TOTAL (SHOP PAGE) ---
+function updateTotal() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price;
+    });
+
+    const totalElement = document.getElementById("total");
+    if (totalElement) {
+        totalElement.textContent = total;
+    }
+}
+
+// --- ADD TO CART ---
 function addToCart(name, price) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     cart.push({ name, price });
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateTotal(); // update UI
 
     alert("Added to cart");
 }
@@ -121,3 +137,9 @@ function placeOrder() {
     }
     return false;
 }
+
+// --- PAGE LOAD ---
+window.onload = function () {
+    loadProducts();
+    updateTotal();
+};
