@@ -13,24 +13,41 @@ function loginUser() {
 
 // --- PRODUCT LIST ---
 const products = [
+<<<<<<< HEAD
     
     { name: "Sefie stick", price: 1200 },
+=======
+    { name: "Selfie stick", price: 1200 },
+>>>>>>> 03245fea6722f4a82726688958cd3e60d5c701c0
     { name: "Watch", price: 800 },
     { name: "Laptop", price: 45000 },
     { name: "Phone", price: 15000 },
     { name: "Headphones", price: 2000 },
     { name: "Bag", price: 600 },
+<<<<<<< HEAD
     { name: "refrigerator", price: 1000 },
     { name: "Camera", price: 25000 },
     { name: "Tablet", price: 20000 },
     { name: "Remote car", price: 300 },
+=======
+    { name: "Remote car", price: 1000 },
+    { name: "Camera", price: 25000 },
+    { name: "Tablet", price: 20000 },
+    { name: "Book", price: 300 },
+>>>>>>> 03245fea6722f4a82726688958cd3e60d5c701c0
     { name: "Sunglasses", price: 700 },
     { name: "Keyboard", price: 1500 },
     { name: "Mouse", price: 800 },
     { name: "Speaker", price: 3500 },
     { name: "Smartwatch", price: 5000 },
+<<<<<<< HEAD
     { name: "fan", price: 1000 },
     { name: "Remote", price: 2500 },
+=======
+    { name: "fan", price: 1200 },
+    { name: "Remote", price: 1000 },
+    { name: "refrigerator", price: 2500 },
+>>>>>>> 03245fea6722f4a82726688958cd3e60d5c701c0
     { name: "TV", price: 40000 }
     // Add more items here
 ];
