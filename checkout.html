@@ -4,9 +4,15 @@
     <title>Checkout</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+
+<body onload="loadCheckout()">
+
     <h1>Checkout</h1>
+
+    <h2>Order Summary</h2>
     <div id="order-summary"></div>
+
+    <h3>Total: ₹<span id="total">0</span></h3>
 
     <form onsubmit="return placeOrder()">
         <input type="text" id="address" placeholder="Delivery Address" required>
@@ -17,8 +23,6 @@
     <p id="order-msg"></p>
 
     <script src="script.js"></script>
-    <script>
-        showOrderSummary(); // show cart items here
-    </script>
+
 </body>
 </html>
