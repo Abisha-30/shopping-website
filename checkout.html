@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Checkout</h1>
+    <div id="order-summary"></div>
+
+    <form onsubmit="return placeOrder()">
+        <input type="text" id="address" placeholder="Delivery Address" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <button type="submit">Place Order</button>
+    </form>
+
+    <p id="order-msg"></p>
+
+    <script src="script.js"></script>
+    <script>
+        showOrderSummary(); // show cart items here
+    </script>
+</body>
+</html>
+
