@@ -8,9 +8,10 @@
 
 <header class="header-color">
     <h1>Electronics Shop 🛒</h1>
+    <p id="welcome-user"></p>
 </header>
 
-<input type="text" id="search-box" placeholder="Search electronics..." onkeyup="searchItems()">
+<input type="text" id="search-box" placeholder="Search items..." onkeyup="searchItems()">
 
 <div class="products" id="product-list"></div>
 
@@ -23,7 +24,15 @@
 
 <script src="script.js"></script>
 <script>
+window.onload = function () {
     loadProducts();
+
+    const name = localStorage.getItem("customerName");
+    if (name) {
+        document.getElementById("welcome-user").textContent =
+            "Welcome, " + name + " 👋";
+    }
+};
 </script>
 
 </body>
