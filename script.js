@@ -2,40 +2,86 @@
 function loginUser() {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
 
-    if (user === "admin" && pass === "1234") {
+    if (role === "admin" && user === "admin" && pass === "1234") {
+        alert("Admin Login Success");
         window.location.href = "shop.html";
-    } else {
+    } 
+    else if (role === "customer") {
+        localStorage.setItem("customer", user);
+        alert("Welcome " + user);
+        window.location.href = "shop.html";
+    } 
+    else {
         document.getElementById("login-msg").textContent = "Invalid login!";
     }
     return false;
 }
 
-// --- PRODUCT LIST ---
+// --- ELECTRONICS PRODUCTS ---
 const products = [
-    { name: "Selfie stick", price: 1200 },
-    { name: "Watch", price: 800 },
-    { name: "Laptop", price: 45000 },
-    { name: "Phone", price: 15000 },
-    { name: "Headphones", price: 2000 },
-    { name: "Bag", price: 600 },
-    { name: "Refrigerator", price: 1000 },
-    { name: "Camera", price: 25000 },
-    { name: "Tablet", price: 20000 },
-    { name: "Book", price: 300 },
-    { name: "Sunglasses", price: 700 },
-    { name: "Keyboard", price: 1500 },
+    { name: "Laptop", price: 55000 },
+    { name: "Smartphone", price: 18000 },
+    { name: "Tablet", price: 22000 },
+    { name: "Smart TV", price: 40000 },
+    { name: "Headphones", price: 2500 },
+    { name: "Bluetooth Speaker", price: 3500 },
+    { name: "Smartwatch", price: 6000 },
     { name: "Mouse", price: 800 },
-    { name: "Speaker", price: 3500 },
-    { name: "Smartwatch", price: 5000 },
-    { name: "Fan", price: 1200 },
-    { name: "TV", price: 40000 }
+    { name: "Keyboard", price: 1500 },
+    { name: "Camera", price: 45000 },
+    { name: "Gaming Laptop", price: 85000 },
+    { name: "iPhone", price: 75000 },
+    { name: "LED TV", price: 30000 },
+    { name: "Android TV Box", price: 3500 },
+    { name: "Wireless Headphones", price: 4000 },
+    { name: "Earbuds", price: 2000 },
+    { name: "Soundbar", price: 8000 },
+    { name: "Home Theatre", price: 15000 },
+    { name: "Smartwatch", price: 6000 },
+    { name: "Fitness Band", price: 3000 },
+    { name: "Mouse", price: 800 },
+    { name: "Wireless Mouse", price: 1200 },
+    { name: "Keyboard", price: 1500 },
+    { name: "Mechanical Keyboard", price: 5000 },
+    { name: "Monitor", price: 12000 },
+    { name: "Gaming Monitor", price: 20000 },
+    { name: "Printer", price: 9000 },
+    { name: "Scanner", price: 7000 },
+    { name: "Camera", price: 45000 },
+    { name: "DSLR Camera", price: 65000 },
+    { name: "Webcam", price: 2000 },
+    { name: "Power Bank", price: 1200 },
+    { name: "Fast Charger", price: 800 },
+    { name: "Wireless Charger", price: 1500 },
+    { name: "USB Cable", price: 300 },
+    { name: "USB Flash Drive", price: 600 },
+    { name: "External Hard Disk", price: 5000 },
+    { name: "SSD", price: 7000 },
+    { name: "Router", price: 2000 },
+    { name: "WiFi Extender", price: 2500 },
+    { name: "Gaming Console", price: 30000 },
+    { name: "VR Headset", price: 25000 },
+    { name: "Game Controller", price: 3000 },
+    { name: "Projector", price: 25000 },
+    { name: "Mini Projector", price: 10000 },
+    { name: "Microphone", price: 3000 },
+    { name: "Studio Microphone", price: 8000 },
+    { name: "Electric Kettle", price: 1500 },
+    { name: "Induction Stove", price: 3000 },
+    { name: "Air Fryer", price: 7000 },
+    { name: "Mixer Grinder", price: 5000 },
+    { name: "Refrigerator", price: 25000 },
+    { name: "Washing Machine", price: 20000 },
+    { name: "Air Conditioner", price: 35000 },
+    { name: "Ceiling Fan", price: 2500 },
+    { name: "Smart Bulb", price: 800 },
+    { name: "LED Strip Lights", price: 1200 },
+    { name: "CCTV Camera", price: 4000 },
+    { name: "Doorbell Camera", price: 5000 }
 ];
-
-function initShop() {
-    loadProducts();
-    displayCart();
-}
+];
 
 // --- LOAD PRODUCTS ---
 function loadProducts() {
@@ -44,15 +90,14 @@ function loadProducts() {
 
 function displayProducts(list) {
     const productList = document.getElementById("product-list");
-    if (!productList) return;
-
     productList.innerHTML = "";
 
     list.forEach(product => {
         const div = document.createElement("div");
+        div.className = "product";
 
         div.innerHTML = `
-            <h3>${product.name}</h3>
+            <h3>📱 ${product.name}</h3>
             <p>₹${product.price}</p>
             <button onclick="addToCart('${product.name}', ${product.price})">Add</button>
         `;
@@ -70,83 +115,65 @@ function searchItems() {
     displayProducts(filtered);
 }
 
-// --- ADD TO CART ---
-function addToCart(name, price) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// --- CART ---
+let cart = [];
+let total = 0;
 
-    cart.push({ name, price });
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    displayCart();
-
-    alert("Added to cart");
+function addToCart(item, price) {
+    cart.push({ item, price });
+    total += price;
+    updateCart();
 }
 
-// --- DISPLAY CART ---
-function displayCart() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function updateCart() {
+    const cartItems = document.getElementById("cart-items");
+    if (!cartItems) return;
 
-    let cartDiv = document.getElementById("cart-items");
-    let total = 0;
+    cartItems.innerHTML = "";
 
-    if (!cartDiv) return;
+    cart.forEach((p, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${p.item} - ₹${p.price}`;
 
-    cartDiv.innerHTML = "";
+        const btn = document.createElement("button");
+        btn.textContent = "❌";
+        btn.onclick = () => removeFromCart(index);
 
-    cart.forEach((item, index) => {
-        let div = document.createElement("div");
-
-        div.innerHTML = `
-            ${item.name} - ₹${item.price}
-            <button onclick="removeItem(${index})">❌</button>
-        `;
-
-        cartDiv.appendChild(div);
-
-        total += item.price;
+        li.appendChild(btn);
+        cartItems.appendChild(li);
     });
 
     document.getElementById("total").textContent = total;
 }
 
-// --- REMOVE ITEM ---
-function removeItem(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+function removeFromCart(index) {
+    total -= cart[index].price;
     cart.splice(index, 1);
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    displayCart();
+    updateCart();
 }
 
-// --- GO TO CHECKOUT ---
+// --- CHECKOUT ---
 function checkout() {
     window.location.href = "checkout.html";
 }
 
-// --- LOAD CHECKOUT ---
-function loadCheckout() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function showOrderSummary() {
+    const summary = document.getElementById("order-summary");
+    if (!summary) return;
 
-    let total = 0;
-    let summary = document.getElementById("order-summary");
+    summary.innerHTML = "<h2>Order Summary</h2>";
 
-    summary.innerHTML = "";
-
-    cart.forEach(item => {
-        let p = document.createElement("p");
-        p.textContent = `${item.name} - ₹${item.price}`;
-        summary.appendChild(p);
-
-        total += item.price;
+    cart.forEach(p => {
+        const el = document.createElement("p");
+        el.textContent = `${p.item} - ₹${p.price}`;
+        summary.appendChild(el);
     });
 
-    document.getElementById("total").textContent = total;
+    const totalEl = document.createElement("p");
+    totalEl.textContent = "Total: ₹" + total;
+    summary.appendChild(totalEl);
 }
 
-// --- PLACE ORDER ---
 function placeOrder() {
     const address = document.getElementById("address").value;
     const phone = document.getElementById("phone").value;
@@ -154,11 +181,10 @@ function placeOrder() {
     if (address && phone) {
         document.getElementById("order-msg").textContent =
             "✅ Order placed successfully!";
-
-        localStorage.removeItem("cart");
     } else {
         document.getElementById("order-msg").textContent =
-            "Please fill all details.";
+            "Fill all details!";
     }
+
     return false;
 }
