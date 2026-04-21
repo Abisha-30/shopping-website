@@ -4,25 +4,24 @@
     <title>Checkout</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body onload="loadCheckout()">
+<h1>Checkout 🧾</h1>
 
-    <h1>Checkout</h1>
+<div id="order-summary"></div>
 
-    <h2>Order Summary</h2>
-    <div id="order-summary"></div>
+<form onsubmit="return placeOrder()">
+    <input type="text" id="address" placeholder="Delivery Address" required>
+    <input type="text" id="phone" placeholder="Phone Number" required>
+    <button type="submit">Place Order</button>
+</form>
 
-    <h3>Total: ₹<span id="total">0</span></h3>
+<p id="order-msg"></p>
 
-    <form onsubmit="return placeOrder()">
-        <input type="text" id="address" placeholder="Delivery Address" required>
-        <input type="text" id="phone" placeholder="Phone Number" required>
-        <button type="submit">Place Order</button>
-    </form>
-
-    <p id="order-msg"></p>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
+<script>
+    showOrderSummary();
+</script>
 
 </body>
 </html>
